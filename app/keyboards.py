@@ -18,7 +18,8 @@ catalog = InlineKeyboardMarkup(
         [InlineKeyboardButton(text='Лев Толстой', callback_data='ltolstoy')],
         [InlineKeyboardButton(text='Алексей Толстой', callback_data='atolstoy')],
         [InlineKeyboardButton(text='Ф.М.Достоевский', callback_data='fmdostoevsckiy')],
-        [InlineKeyboardButton(text='М.А.Булгаков', callback_data='mabulgakov')]
+        [InlineKeyboardButton(text='М.А.Булгаков', callback_data='mabulgakov')],
+        [InlineKeyboardButton(text='А.С. Пушкин', callback_data='pushkin')]
     ]
 )
 
