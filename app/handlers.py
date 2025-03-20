@@ -30,14 +30,18 @@ WRITER_PROMPTS = {
     "fmdostoevsckiy": f"Поговори как Ф.М. Достоевский, используй его манеру: напряженную,"
                   f"психологически глубокую, с драматизмом и внутренними конфликтами."
                       f"Ограничься 2-3 предложениями, отвечая на вопрос, задавай вопросы "
-                  f"по схожей теме собеседнику"
+                  f"по схожей теме собеседнику",
+    "mabulgakov": f"Поговори как М.А. Булгаков, используй его манеру речи: философскую, с рассуждениями"
+                  f"о добре и зле, мистически, таинственно, с элментами как реальности, так и фантастики."
+                  f"Ограничься 2-3 предложениями, отвечая на вопрос, задавай вопросы по схожим темам собеседнику"
 }
 
 # Стикеры (для Достоевского — ссылка, для остальных — placeholder или стикеры позже)
 STICKER_PACKS = {
     "ltolstoy": "https://t.me/addstickers/LevTolstoj6",  # Замените на реальный sticker_id, если есть
     "atolstoy": "https://t.me/addstickers/AleksejTolstoj",  # Замените на реальный sticker_id, если есть
-    "fmdostoevsckiy": "https://t.me/addstickers/Dostoevskij313"  # Ссылка на стикерпак Достоевского
+    "fmdostoevsckiy": "https://t.me/addstickers/Dostoevskij313",# Ссылка на стикерпак Достоевского
+    "mabulgakov": "https://t.me/addstickers/MABulgakov"
 }
 
 # Фиксированные сообщения
@@ -135,6 +139,22 @@ async def fm_dost_choose(callback: CallbackQuery, state: FSMContext):
         await callback.answer('Вы выбрали Ф.М. Достоевского', show_alert=True)
         await callback.message.answer('Вы выбрали Ф.М. Достоевского. Напишите ваш запрос, и я отвечу в его стиле.')
         await state.update_data(writer="fmdostoevsckiy", context=[])  # Инициализируем пустой контекст
+        await state.set_state(Gen.writer_selected)
+
+
+@router.callback_query(F.data == 'mabulgakov')
+async def fm_dost_choose(callback: CallbackQuery, state: FSMContext):
+    current_state = await state.get_state()
+    if current_state == Gen.sticker_selection.state:
+        logger.info("Пользователь выбрал стикерпак М.А. Булгакова")
+        await callback.answer('Вы выбрали стикерпак М.А. Булгакова', show_alert=True)
+        await callback.message.answer(f"Вот стикерпак М.А.Булгакова: {STICKER_PACKS['mabulgakov']}")
+        await state.clear()
+    else:
+        logger.info("Пользователь выбрал М.А. Булгакова для диалога")
+        await callback.answer('Вы выбрали М.А. Булгакова', show_alert=True)
+        await callback.message.answer('Вы выбрали М.А. Булгакова. Напишите ваш запрос, и я отвечу в его стиле.')
+        await state.update_data(writer="mabulgakov", context=[])  # Инициализируем пустой контекст
         await state.set_state(Gen.writer_selected)
 
 
