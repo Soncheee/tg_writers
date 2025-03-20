@@ -84,7 +84,7 @@ async def stickers_catalog(message: Message, state: FSMContext):
     await state.set_state(Gen.sticker_selection)
 
 
-@router.message(F.text == 'Каталог писателей')
+@router.message(F.text == 'Каталог')
 async def catalog(message: Message):
     logger.info("Пользователь запросил каталог")
     await message.answer('Выберите писателя', reply_markup=kb.catalog)
